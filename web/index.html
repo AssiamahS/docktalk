@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DockTalk Door Board</title>
+<meta name="description" content="Live dock door board for small warehouses and 3PLs: QR driver check-in, door assignment by text, dwell and detention timers.">
+<meta name="theme-color" content="#16181c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="hazard"></div>
+<header class="top">
+  <a class="brand" href="index.html"><b>DOCK</b>TALK</a>
+  <span class="site" id="siteName">Main DC</span>
+  <span class="sp"></span>
+  <button class="btn ghost sm hide-sm" id="btnImport" title="Paste driver check-in texts">Paste texts</button>
+  <button class="btn ghost sm hide-sm" id="btnQR">Gate QR</button>
+  <button class="btn sig sm hide-sm" id="btnAdd">+ Check in</button>
+  <button class="btn ghost icon-btn" id="btnMenu" aria-label="Settings">&#9776;</button>
+</header>
+<section class="stats" aria-label="Today">
+  <div class="stat"><div class="k">On site</div><div class="v" id="sOn">0</div></div>
+  <div class="stat"><div class="k">At doors</div><div class="v" id="sDoor">0</div></div>
+  <div class="stat"><div class="k">Avg dwell</div><div class="v" id="sAvg">0m</div></div>
+  <div class="stat" id="sDetWrap"><div class="k">Detention risk</div><div class="v" id="sDet">0</div></div>
+</section>
+<main class="wrap">
+  <section class="pane list-pane" id="listPane" aria-label="Trucks"></section>
+  <section class="pane detail-pane" id="detailPane" aria-label="Detail"></section>
+</main>
+<button class="btn sig fab" id="fab">+ Check in</button>
+<div class="toast" id="toast"></div>
+
+<dialog id="dlgVisit">
+  <form method="dialog" id="formVisit">
+    <h2 id="visitTitle">Check in truck</h2>
+    <div class="row2">
+      <div><label for="vName">Driver</label><input id="vName" name="name" required autocomplete="name"></div>
+      <div><label for="vPhone">Cell (for door text)</label><input id="vPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel"></div>
+    </div>
+    <div class="row2">
+      <div><label for="vCarrier">Carrier</label><input id="vCarrier" name="carrier"></div>
+      <div><label for="vRef">PO / Load / BOL #</label><input id="vRef" name="ref"></div>
+    </div>
+    <div class="row2">
+      <div><label for="vTrailer">Trailer #</label><input id="vTrailer" name="trailer"></div>
+      <div><label for="vAppt">Appointment</label><input id="vAppt" name="appt" type="time"></div>
+    </div>
+    <label>Load type</label>
+    <div class="seg">
+      <input type="radio" name="kind" id="kIn" value="inbound" checked><label for="kIn">Inbound / drop</label>
+      <input type="radio" name="kind" id="kOut" value="outbound"><label for="kOut">Outbound / pickup</label>
+    </div>
+    <label for="vNotes">Notes</label><textarea id="vNotes" name="notes" rows="2"></textarea>
+    <div class="dlg-foot">
+      <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn sig" value="ok">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgImport">
+  <form method="dialog" id="formImport">
+    <h2>Paste check-in texts</h2>
+    <p class="hint">Drivers who scan the gate QR send a text starting with <span class="mono">DOCKTALK</span> to your dock phone. Long-press, copy, paste one or many here.</p>
+    <textarea id="importText" rows="7" placeholder="DOCKTALK CHECKIN&#10;Driver: ..."></textarea>
+    <div class="dlg-foot">
+      <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn sig" value="ok">Add to board</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgQR">
+  <div class="dlg">
+    <h2>Gate QR</h2>
+    <p class="hint">Print this and tape it at the guard shack or driver window. Drivers scan with the phone camera - no app, no login.</p>
+    <div class="qr" id="qrBox"></div>
+    <div class="mono" id="qrUrl"></div>
+    <div class="dlg-foot">
+      <button class="btn ghost" id="qrCopy">Copy link</button>
+      <a class="btn ghost" id="qrOpen" target="_blank" rel="noopener">Open form</a>
+      <button class="btn" id="qrPrint">Print</button>
+      <button class="btn sig" id="qrClose">Done</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dlgSettings">
+  <form method="dialog" id="formSettings">
+    <h2>Site settings</h2>
+    <label for="stSite">Site name</label><input id="stSite" name="site">
+    <div class="row2">
+      <div><label for="stDoors">Dock doors</label><input id="stDoors" name="doors" type="number" min="1" max="60"></div>
+      <div><label for="stFree">Free time (min)</label><input id="stFree" name="free" type="number" min="15" max="600"></div>
+    </div>
+    <div class="row2">
+      <div><label for="stRate">Detention $/hr</label><input id="stRate" name="rate" type="number" min="0" max="500"></div>
+      <div><label for="stPhone">Dock phone (gets texts)</label><input id="stPhone" name="phone" type="tel"></div>
+    </div>
+    <p class="hint">Data lives on this device only. Export a CSV for detention disputes and records.</p>
+    <div class="dlg-foot">
+      <button type="button" class="btn ghost" id="btnCSV">Export CSV</button>
+      <button type="button" class="btn ghost danger" id="btnClearDone">Clear done</button>
+      <a class="btn ghost" href="sales.html">Pricing</a>
+      <button class="btn sig" value="ok">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+<script src="shared.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>

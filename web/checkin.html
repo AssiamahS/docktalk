@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16181c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<title>Driver Check-In</title>
+<style>
+  .ci { max-width: 520px; margin: 0 auto; padding: 20px 16px 48px; }
+  .ci h1 { font: 800 40px/1 var(--cond); text-transform: uppercase; margin: 8px 0 4px; }
+  .ci .lead { color: var(--muted); margin: 0 0 12px; }
+  .ci .go { width: 100%; padding: 16px; font-size: 18px; margin-top: 18px; }
+  .done-box { text-align: center; padding: 30px 10px; }
+  .done-box .big { font: 800 64px/1 var(--cond); color: var(--sig); }
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+<header class="top"><a class="brand" href="index.html"><b>DOCK</b>TALK</a><span class="site" id="siteName"></span></header>
+<main class="ci">
+  <form id="f">
+    <h1>Driver check-in</h1>
+    <p class="lead">No app. Fill this in, hit Send, and your text goes to the dock. They text you back your door.</p>
+    <label for="name">Your name</label><input id="name" name="name" required autocomplete="name">
+    <label for="phone">Your cell</label><input id="phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel">
+    <label for="carrier">Carrier / company</label><input id="carrier" name="carrier" autocomplete="organization">
+    <label for="ref">PO / Load / BOL #</label><input id="ref" name="ref" required>
+    <div class="row2">
+      <div><label for="trailer">Trailer #</label><input id="trailer" name="trailer"></div>
+      <div><label for="appt">Appointment</label><input id="appt" name="appt" type="time"></div>
+    </div>
+    <label>I am here to</label>
+    <div class="seg">
+      <input type="radio" name="kind" id="kIn" value="inbound" checked><label for="kIn">Drop / deliver</label>
+      <input type="radio" name="kind" id="kOut" value="outbound"><label for="kOut">Pick up</label>
+    </div>
+    <label for="notes">Anything else</label><input id="notes" name="notes" placeholder="Reefer, hazmat, need lumper...">
+    <button class="btn sig go" id="go">Send check-in</button>
+    <p class="hint" id="note"></p>
+  </form>
+  <div class="done-box" id="done" hidden>
+    <div class="big">CHECKED IN</div>
+    <p id="doneTime" class="mono"></p>
+    <p>Stay with your truck. The dock will text your door number.</p>
+    <p class="hint">Your arrival time is saved in your text thread - useful proof for detention.</p>
+    <button class="btn" id="again">Check in another truck</button>
+  </div>
+</main>
+<script src="shared.js"></script>
+<script src="checkin.js"></script>
+</body>
+</html>

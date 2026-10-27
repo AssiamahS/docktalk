@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16181c">
+<title>DockTalk Pricing</title>
+<meta name="description" content="Stop paying detention and answering 40 driver calls a shift. QR check-in, live door board, text drivers their door. $49 per site per month.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .s { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  .hero { padding: 48px 0 28px; display: grid; gap: 28px; }
+  @media (min-width: 760px) { .hero { grid-template-columns: 1.2fr 1fr; align-items: center; } }
+  .hero h1 { font: 800 clamp(44px, 8vw, 84px)/.92 var(--cond); text-transform: uppercase; margin: 0; letter-spacing: -.01em; }
+  .hero h1 em { font-style: normal; background: var(--sig); color: var(--sig-ink); padding: 0 .12em; }
+  .hero p { font-size: 19px; color: var(--muted); max-width: 34em; }
+  .board-mock { background: #16181c; color: #eceae4; border-radius: 14px; padding: 14px; font: 600 14px var(--mono); box-shadow: var(--shadow); }
+  .board-mock .r { display: grid; grid-template-columns: 56px 1fr 64px; gap: 10px; padding: 9px 4px; border-bottom: 1px solid #2b2f36; align-items: center; }
+  .board-mock .r:last-child { border-bottom: 0; }
+  .board-mock .d { font: 800 26px var(--cond); color: #ffc400; }
+  .board-mock .t { text-align: right; }
+  .board-mock .red { color: #ff5a52; } .board-mock .amb { color: #ff9f1a; } .board-mock .grn { color: #36c27a; }
+  .how { display: grid; gap: 12px; margin: 18px 0 36px; }
+  @media (min-width: 700px) { .how { grid-template-columns: repeat(3, 1fr); } }
+  .how div { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .how b { font: 800 34px/1 var(--cond); color: var(--sig); display: block; }
+  .price { display: grid; gap: 18px; background: var(--panel); border: 2px solid var(--ink); border-radius: 16px; padding: 22px; margin-bottom: 36px; }
+  @media (min-width: 760px) { .price { grid-template-columns: 1fr 1fr; } }
+  .amt { font: 800 72px/1 var(--cond); } .amt small { font: 600 16px var(--mono); color: var(--muted); }
+  .price ul { margin: 10px 0 0; padding-left: 18px; } .price li { margin: 4px 0; }
+  .cta { width: 100%; padding: 16px; font-size: 18px; text-align: center; text-decoration: none; display: block; }
+  .math { font: 14px var(--mono); color: var(--muted); border-left: 4px solid var(--sig); padding: 8px 12px; margin: 14px 0; }
+  footer { padding: 30px 0 50px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+<header class="top"><a class="brand" href="index.html"><b>DOCK</b>TALK</a><span class="sp"></span><a class="btn ghost sm" href="index.html">Open the board</a></header>
+<main class="s">
+  <section class="hero">
+    <div>
+      <h1>Every truck.<br>Every door.<br><em>One screen.</em></h1>
+      <p>Drivers scan a QR at the gate and check in from their own phone - no app. You see who's waiting, who's at which door, and who's about to cost you detention. One tap texts the driver their door.</p>
+      <a class="btn sig" href="#start" style="padding:14px 22px;font-size:17px">Start a 30-day pilot</a>
+      <a class="btn ghost" href="index.html" style="padding:14px 22px;font-size:17px">Try the live board</a>
+    </div>
+    <div class="board-mock" aria-hidden="true">
+      <div class="r"><span class="d">03</span><span>Ridgeline · PO 44817<br><span class="red">DETENTION +$60</span></span><span class="t red">2h14</span></div>
+      <div class="r"><span class="d">05</span><span>Blue Mile · LD 90213<br><span class="amb">near free time</span></span><span class="t amb">1h38</span></div>
+      <div class="r"><span class="d">--</span><span>Owner-op · BOL 3321<br><span class="grn">waiting in yard</span></span><span class="t grn">0h23</span></div>
+      <div class="r"><span class="d">07</span><span>open</span><span class="t grn">free</span></div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div><b>1</b><strong>Tape the QR at the shack.</strong><br>Driver fills name, cell, PO. Their text lands on the dock phone with a timestamp.</div>
+    <div><b>2</b><strong>Run the door board.</strong><br>Waiting / at door / loading / done. Dwell timers go amber, then red at your free-time limit.</div>
+    <div><b>3</b><strong>Text the door, export proof.</strong><br>One tap sends "back into DOOR 5". CSV of check-in / out times for every detention dispute.</div>
+  </section>
+
+  <section class="price" id="start">
+    <div>
+      <div class="amt"><span id="price">$49</span> <small id="unit">per site / month</small></div>
+      <ul>
+        <li>Unlimited doors, drivers and check-ins</li>
+        <li>Works on the phone, tablet or PC you already have</li>
+        <li>Set up with you on a 15-minute call, same day</li>
+        <li>Cancel any time. No contract, no per-user fees</li>
+      </ul>
+      <div class="math">Detention runs $50-$80 per hour after 2 hrs free. Prevent one hour a month and it's paid for.</div>
+    </div>
+    <div id="ctaBox"></div>
+  </section>
+</main>
+<footer class="s">DockTalk - built for small warehouses, cross-docks and 3PLs that run the yard off a whiteboard and a ringing phone.</footer>
+<script src="config.js"></script>
+<script src="sales.js"></script>
+</body>
+</html>

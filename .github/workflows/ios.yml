@@ -1,0 +1,40 @@
+name: ios
+on:
+  push:
+    branches: [main]
+    paths: ["ios/**", ".github/workflows/ios.yml"]
+  workflow_dispatch:
+jobs:
+  build:
+    # Xcode 27 image GA 2026-10-15 (github.blog/changelog/2026-10-15-xcode-27-runner-image-generally-available)
+    runs-on: xcode-27
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select highest Xcode 27.x
+        run: |
+          ls -d /Applications/Xcode*.app || true
+          X=$(ls -d /Applications/Xcode_27*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$X" ]; then X=$(ls -d /Applications/Xcode*.app | sort -V | tail -1); fi
+          echo "Selecting $X"
+          sudo xcode-select -s "$X/Contents/Developer"
+      - name: Toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          xcodebuild -showsdks
+      - name: XcodeGen
+        working-directory: ios
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Build (unsigned, iOS Simulator)
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild -project DockTalk.xcodeproj -scheme DockTalk -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build | tee build.log | grep -E 'error:|warning: .*deprecated|BUILD (SUCCEEDED|FAILED)' || true
+          grep -q 'BUILD SUCCEEDED' build.log
