@@ -63,7 +63,7 @@ Commit and push; the `pages` workflow redeploys in about a minute.
   a stack when folded and shows a real detail pane (door board / truck) when unfolded; selection in
   `@SceneStorage`, settings in `@AppStorage`, visits in SwiftData. On-device only.
 - `.github/workflows/pages.yml` - deploys `web/` to GitHub Pages.
-- `.github/workflows/ios.yml` - unsigned simulator build on the `xcode-27` runner image (iOS 27.1 SDK, so the app
+- `.github/workflows/ios.yml` - unsigned simulator build on the `xcode-27` runner image (Xcode 27.2 / iOS 27.2 SDK as of 2026-10-27, so the app
   fills the iPhone Duo inner display instead of letterboxing).
 
 Build the iOS app on a Mac with Xcode 27:
