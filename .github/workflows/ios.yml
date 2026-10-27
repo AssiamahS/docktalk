@@ -14,7 +14,8 @@ jobs:
       - name: Select highest Xcode 27.x
         run: |
           ls -d /Applications/Xcode*.app || true
-          X=$(ls -d /Applications/Xcode_27*.app 2>/dev/null | sort -V | tail -1)
+          # highest stable 27.x (skip beta / release-candidate bundles)
+          X=$(ls -d /Applications/Xcode_27*.app 2>/dev/null | grep -viE 'beta|release_candidate|_rc' | sort -V | tail -1)
           if [ -z "$X" ]; then X=$(ls -d /Applications/Xcode*.app | sort -V | tail -1); fi
           echo "Selecting $X"
           sudo xcode-select -s "$X/Contents/Developer"
